@@ -36,8 +36,6 @@ class TextRenderer {
     FT_Face ft_face;
     FT_Library ft_library;
     // harfbuzz variables
-    hb_glyph_info_t* info;
-    hb_glyph_position_t* pos;
     hb_font_t* hb_font = nullptr;
     hb_buffer_t* hb_buffer = nullptr;
 

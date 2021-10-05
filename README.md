@@ -8,7 +8,7 @@ Text Drawing: Text in this game is rendered at runtime. Harfbuzz is used for sha
 
 Screen Shot:
 
-![Screen Shot](screenshotActual.png)
+![Screen Shot](ScreenshotActual.png)
 
 How To Play:
 

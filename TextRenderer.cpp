@@ -109,19 +109,6 @@ void TextRenderer::draw(std::string text, float x, float y, glm::vec2 scale, glm
     for (unsigned int i = 0; i < len; i++)
     {
         hb_codepoint_t gid = info[i].codepoint;
-        unsigned int cluster = info[i].cluster;
-        double x_advance = pos[i].x_advance / 64.;
-        double y_advance = pos[i].y_advance / 64.;
-        double x_offset = pos[i].x_offset / 64.;
-        double y_offset = pos[i].y_offset / 64.;
-
-        /*float xpos = x + (x_offset + ch.Bearing.x) * scale.x;
-        float ypos = y + (y_offset - (ch.Size.y - ch.Bearing.y)) * scale.y;
-
-        float x_pos = x + (float) current_x + pos[i].x_offset / 64.0f;
-        float y_pos = y + (float) current_y + pos[i].y_offset / 64.0f;*/
-
-        
 
         char glyphname[32];
         hb_font_get_glyph_name(hb_font, gid, glyphname, sizeof(glyphname));

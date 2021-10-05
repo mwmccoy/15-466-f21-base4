@@ -6,7 +6,7 @@
 
 struct Option {
 public:
-	Option::Option(std::string textIn, std::list<std::string> resourcesIn, std::list<std::string> resourcesOut, std::string next);
+	Option(std::string textIn, std::list<std::string> resourcesIn, std::list<std::string> resourcesOut, std::string next);
 	~Option();
 
 	bool active;

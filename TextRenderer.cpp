@@ -11,7 +11,7 @@ https://github.com/GenBrg/MarryPrincess/blob/master/DrawFont.cpp
 
 #include "TextRenderer.hpp"
 
-#define FONT_SIZE 36
+#define FONT_SIZE 24
 
 TextRenderer::TextRenderer(std::string fontfile)
 {
@@ -92,8 +92,13 @@ void TextRenderer::draw(std::string text, float x, float y, glm::vec2 scale, glm
         double x_offset = pos[i].x_offset / 64.;
         double y_offset = pos[i].y_offset / 64.;
 
+        /*float xpos = x + (x_offset + ch.Bearing.x) * scale.x;
+        float ypos = y + (y_offset - (ch.Size.y - ch.Bearing.y)) * scale.y;
+
         float x_pos = x + (float) current_x + pos[i].x_offset / 64.0f;
-        float y_pos = y + (float) current_y + pos[i].y_offset / 64.0f;
+        float y_pos = y + (float) current_y + pos[i].y_offset / 64.0f;*/
+
+        
 
         char glyphname[32];
         hb_font_get_glyph_name(hb_font, gid, glyphname, sizeof(glyphname));
@@ -107,6 +112,9 @@ void TextRenderer::draw(std::string text, float x, float y, glm::vec2 scale, glm
         {
             std::cout << "ERROR::FREETYPE: Failed to load Glyph with error: " << ft_error << std::endl;
         }
+
+        float x_pos = x + (float)current_x + ft_face->glyph->bitmap_left;
+        float y_pos = y + (float)current_y - (ft_face->glyph->bitmap.rows - ft_face->glyph->bitmap_top);
 
         /* { //Render out the bitmap
             FT_Bitmap const& bitmap = ft_face->glyph->bitmap;

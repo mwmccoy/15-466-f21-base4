@@ -12,7 +12,8 @@
 #include "data_path.hpp"
 #include "Scene.hpp"
 #include "ColorTextureProgram.hpp"
-//#include "TextRenderProgram.hpp"
+
+
 
 // a struct that stores a glyph that was read from the face (font)
 // it also has a textureID that points to the texture_buffer that holds this glyph

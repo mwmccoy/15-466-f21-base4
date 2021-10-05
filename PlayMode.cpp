@@ -63,7 +63,7 @@ PlayMode::PlayMode() {
 
 
 
-	Room gameOver("over", "Splat! You hit the ground");
+	Room gameOver("over", "Splat! You hit the ground. Game over!");
 
 	rooms.push_back(startRoom);
 	rooms.push_back(falling);

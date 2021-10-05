@@ -1,20 +1,25 @@
-# (TODO: your game's title)
+# What could go wrong
 
-Author: (TODO: your name)
+Author: Woody McCoy
 
-Design: (TODO: In two sentences or fewer, describe what is new and interesting about your game.)
+Design: A game about making tough choices as you fall through the sky.
 
-Text Drawing: (TODO: how does the text drawing in this game work? Is text precomputed? Rendered at runtime? What files or utilities are involved?)
+Text Drawing: Text in this game is rendered at runtime. Harfbuzz is used for shaping, Freetype for glyphs, and OpenGL for rendering those glyphs. All of this is done on demand, when the game asks for a piece of text to be written.
 
 Screen Shot:
 
-![Screen Shot](screenshot.png)
+![Screen Shot](screenshotActual.png)
 
 How To Play:
 
-(TODO: describe the controls and (if needed) goals/strategy.)
+Read the current scenario, and press 1-5 to respond to it! Do your best to survive the fall.
 
-Sources: (TODO: list a source URL for any assets you did not create yourself. Make sure you have a license for the asset.)
+Sources: 
+
+https://www.fontsquirrel.com/fonts/raleway for the Raleway-Black font. See the SIL Open Font License as well.
+
+https://github.com/ChunanGang/TextBasedGame/ for the original version of the textrenderer. Oscar's renderer was used to prototype the game,
+and then used as a template for writing another font renderer.
 
 This game was built with [NEST](NEST.md).
 

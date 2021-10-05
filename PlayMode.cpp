@@ -26,11 +26,11 @@ PlayMode::PlayMode() {
 	}
 
 
-	Room startRoom("start", "'Uh oh', you say, as you fall out of the airplane");
+	Room startRoom("start", "Uh oh, you say, as you fall out of the airplane.");
 	startRoom.addOption(Option("Flap?", {}, {}, "flap"));
 	startRoom.addOption(Option("Think, like, really hard for a second.", {}, {}, "thinking"));
 
-	Room falling("falling", "You are falling through the air");
+	Room falling("falling", "You are falling through the air.");
 	falling.addOption(Option("Flap?", {}, {}, "flap"));
 	falling.addOption(Option("Think, like, really hard for a second.", {}, {}, "thinking"));
 	falling.addOption(Option("Pull your chute!", { "chute", "safe" }, { "nochute" }, "safeDeath"));
@@ -48,13 +48,13 @@ PlayMode::PlayMode() {
 	remembered.addOption(Option("Oh, cool! That seems helpful.", {}, {}, "falling"));
 
 	Room veil("veil", "You think incredibly hard. Suddenly, it's clear.");
-	veil.addOption(Option("'That's it. I'm the chosen one....', you think to yourself before", {}, {}, "over"));
+	veil.addOption(Option("That's it. I'm the chosen one!, you think to yourself before...", {}, {}, "over"));
 
 	Room safeDeath("safeDeath", "You parachute rips and tears apart under the weight.");
 	safeDeath.addOption(Option("Wait, am I holding a safe?", {}, {}, "falling"));
 
 
-	Room flap("flap", "You start flapping your arms furiously! It doesn't seem to be working well.");
+	Room flap("flap", "You start flapping your arms furiously! It's not working.");
 	flap.addOption(Option("Flap really, really well", {}, {}, "over"));
 	flap.addOption(Option("Fall instead", {}, {}, "over"));
 
@@ -81,255 +81,6 @@ PlayMode::PlayMode() {
 	threeDown = false;
 	fourDown = false;
 	fiveDown = false;
-
-
-	/*
-	FT_Face face;
-	FT_Library ft;
-
-	//Start by doing some Font testing!
-	{ //Harfbuzz testing
-
-		// Initialize FreeType and create FreeType font face.
-		FT_Library ft_library;
-		FT_Face ft_face;
-		
-		FT_Error ft_error;
-
-		if ((ft_error = FT_Init_FreeType(&ft_library)))
-			abort();
-		if ((ft_error = FT_New_Face(ft_library, fontfile, 0, &ft_face)))
-			abort();
-		if ((ft_error = FT_Set_Char_Size(ft_face, FONT_SIZE * 64, FONT_SIZE * 64, 0, 0)))
-			abort();
-
-		//Create hb-ft font.
-		hb_font_t* hb_font;
-		hb_font = hb_ft_font_create(ft_face, NULL);
-
-		Create hb-buffer and populate.
-		hb_buffer_t* hb_buffer;
-		hb_buffer = hb_buffer_create();
-		hb_buffer_add_utf8(hb_buffer, text, -1, 0, -1);
-		hb_buffer_guess_segment_properties(hb_buffer);
-
-		//Shape it!
-		hb_shape(hb_font, hb_buffer, NULL, 0);
-
-		//Get glyph information and positions out of the buffer.
-		unsigned int len = hb_buffer_get_length(hb_buffer);
-		hb_glyph_info_t* info = hb_buffer_get_glyph_infos(hb_buffer, NULL);
-		hb_glyph_position_t* pos = hb_buffer_get_glyph_positions(hb_buffer, NULL);
-
-		//Print them out as is.
-		printf("Raw buffer contents:\n");
-		for (unsigned int i = 0; i < len; i++)
-		{
-			hb_codepoint_t gid = info[i].codepoint;
-			unsigned int cluster = info[i].cluster;
-			double x_advance = pos[i].x_advance / 64.;
-			double y_advance = pos[i].y_advance / 64.;
-			double x_offset = pos[i].x_offset / 64.;
-			double y_offset = pos[i].y_offset / 64.;
-
-			char glyphname[32];
-			hb_font_get_glyph_name(hb_font, gid, glyphname, sizeof(glyphname));
-
-			printf("glyph='%s'	cluster=%d	advance=(%g,%g)	offset=(%g,%g)\n",
-				glyphname, cluster, x_advance, y_advance, x_offset, y_offset);
-		}
-
-		printf("Converted to absolute positions:\n");
-		//And converted to absolute positions.
-		{
-			double current_x = 0;
-			double current_y = 0;
-			for (unsigned int i = 0; i < len; i++)
-			{
-				hb_codepoint_t gid = info[i].codepoint;
-				unsigned int cluster = info[i].cluster;
-				double x_position = current_x + pos[i].x_offset / 64.;
-				double y_position = current_y + pos[i].y_offset / 64.;
-
-
-				char glyphname[32];
-				hb_font_get_glyph_name(hb_font, gid, glyphname, sizeof(glyphname));
-
-				printf("glyph='%s'	cluster=%d	position=(%g,%g)\n",
-					glyphname, cluster, x_position, y_position);
-
-				current_x += pos[i].x_advance / 64.;
-				current_y += pos[i].y_advance / 64.;
-			}
-		}
-
-
-		hb_buffer_destroy(hb_buffer);
-		hb_font_destroy(hb_font);
-
-		FT_Done_Face(ft_face);
-		FT_Done_FreeType(ft_library);
-	}
-
-	{
-		//George's code from the discord, for testing purposes
-		
-		if (FT_Init_FreeType(&ft))
-		{
-			std::cout << "ERROR::FREETYPE:: Could not init FreeType Library " << std::endl;
-			
-		}
-
-		
-		if (FT_New_Face(ft, fontfile, 0, &face))
-		{
-			std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
-			
-		}
-
-		FT_Error ft_error;
-
-		if ((ft_error = FT_Set_Char_Size(face, FONT_SIZE * 64, FONT_SIZE * 64, 0, 0)))
-			abort();
-
-		int errCode = FT_Load_Char(face, 'k', FT_LOAD_RENDER);
-		if (errCode)
-		{
-			std::cout << "ERROR::FREETYPE: Failed to load Glyph with error: " << errCode << std::endl;
-			
-		}
-
-		{ //Render out the bitmap
-			FT_Bitmap const& bitmap = face->glyph->bitmap;
-
-			std::cout << "Bitmap (" << bitmap.width << "x" << bitmap.rows << "):\n";
-			std::cout << "  pitch is " << bitmap.pitch << "\n";
-			std::cout << "  pixel_mode is " << int32_t(bitmap.pixel_mode) << "; num_grays is " << bitmap.num_grays << "\n";
-			if (bitmap.pixel_mode == FT_PIXEL_MODE_GRAY && bitmap.num_grays == 256 && bitmap.pitch >= 0) {
-				for (uint32_t row = 0; row < bitmap.rows; ++row) {
-					std::cout << "   ";
-					for (uint32_t col = 0; col < bitmap.width; ++col) {
-						uint8_t val = bitmap.buffer[row * std::abs(bitmap.pitch) + col];
-						if (val < 128) std::cout << '.';
-						else std::cout << '#';
-					}
-					std::cout << '\n';
-				}
-			}
-			else {
-				std::cout << "  (bitmap is not FT_PIXEL_MODE_GRAY with 256 levels and upper-left origin, not dumping)" << "\n";
-			}
-			std::cout.flush();
-		}
-
-	}
-	
-	//----- allocate OpenGL resources -----
-	{ //vertex buffer:
-		glGenBuffers(1, &vertex_buffer);
-		//for now, buffer will be un-filled.
-
-		GL_ERRORS(); //PARANOIA: print out any OpenGL errors that may have happened
-	}
-
-	{ //vertex array mapping buffer for color_texture_program:
-		//ask OpenGL to fill vertex_buffer_for_color_texture_program with the name of an unused vertex array object:
-		glGenVertexArrays(1, &vertex_buffer_for_color_texture_program);
-
-		//set vertex_buffer_for_color_texture_program as the current vertex array object:
-		glBindVertexArray(vertex_buffer_for_color_texture_program);
-
-		//set vertex_buffer as the source of glVertexAttribPointer() commands:
-		glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-
-		//set up the vertex array object to describe arrays of PongMode::Vertex:
-		glVertexAttribPointer(
-			color_texture_program.Position_vec4, //attribute
-			3, //size
-			GL_FLOAT, //type
-			GL_FALSE, //normalized
-			sizeof(Vertex), //stride
-			(GLbyte *)0 + 0 //offset
-		);
-		glEnableVertexAttribArray(color_texture_program.Position_vec4);
-		//[Note that it is okay to bind a vec3 input to a vec4 attribute -- the w component will be filled with 1.0 automatically]
-
-		glVertexAttribPointer(
-			color_texture_program.Color_vec4, //attribute
-			4, //size
-			GL_UNSIGNED_BYTE, //type
-			GL_TRUE, //normalized
-			sizeof(Vertex), //stride
-			(GLbyte *)0 + 4*3 //offset
-		);
-		glEnableVertexAttribArray(color_texture_program.Color_vec4);
-
-		glVertexAttribPointer(
-			color_texture_program.TexCoord_vec2, //attribute
-			2, //size
-			GL_FLOAT, //type
-			GL_FALSE, //normalized
-			sizeof(Vertex), //stride
-			(GLbyte *)0 + 4*3 + 4*1 //offset
-		);
-		glEnableVertexAttribArray(color_texture_program.TexCoord_vec2);
-
-		//done referring to vertex_buffer, so unbind it:
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		//done setting up vertex array object, so unbind it:
-		glBindVertexArray(0);
-
-		GL_ERRORS(); //PARANOIA: print out any OpenGL errors that may have happened
-	}
-
-	{ //solid white texture:
-		//ask OpenGL to fill white_tex with the name of an unused texture object:
-		glGenTextures(1, &white_tex);
-
-		//bind that texture object as a GL_TEXTURE_2D-type texture:
-		glBindTexture(GL_TEXTURE_2D, white_tex);
-
-		//upload a 1x1 image of solid white to the texture:
-		FT_Bitmap const& bitmap = face->glyph->bitmap;
-		glm::uvec2 size = glm::uvec2(bitmap.width, bitmap.rows);
-		std::vector< glm::u8vec4 > data(size.x*size.y, glm::u8vec4(0xff, 0xff, 0xff, 0xff));
-		if (bitmap.pixel_mode == FT_PIXEL_MODE_GRAY && bitmap.num_grays == 256 && bitmap.pitch >= 0) {
-			for (uint32_t row = 0; row < bitmap.rows; ++row) {
-				std::cout << "   ";
-				for (uint32_t col = 0; col < bitmap.width; ++col) {
-					int val = (int) bitmap.buffer[row * std::abs(bitmap.pitch) + col];
-					glm::u8vec4 new_color(val, val, val, val);
-					data[row * std::abs(bitmap.pitch) + col] = new_color;
-					std::cout << val << std::endl;
-				}
-			}
-		}
-		else {
-			std::cout << "  (bitmap is not FT_PIXEL_MODE_GRAY with 256 levels and upper-left origin, not dumping)" << "\n";
-		}
-
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
-
-		//set filtering and wrapping parameters:
-		//(it's a bit silly to mipmap a 1x1 texture, but I'm doing it because you may want to use this code to load different sizes of texture)
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-		//since texture uses a mipmap and we haven't uploaded one, instruct opengl to make one for us:
-		glGenerateMipmap(GL_TEXTURE_2D);
-
-		//Okay, texture uploaded, can unbind it:
-		glBindTexture(GL_TEXTURE_2D, 0);
-
-		GL_ERRORS(); //PARANOIA: print out any OpenGL errors that may have happened
-	}
-
-	FT_Done_Face(face);
-	FT_Done_FreeType(ft);
-	*/
 }
 
 PlayMode::~PlayMode() {
@@ -458,15 +209,15 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 
 	Room room = rooms[activeRoom];
 
-	textRender->draw(room.text, 50.0f, 500.0f, glm::vec2(1, 1), glm::vec3(250.0f / 255, 192.0f / 255, 137.0f / 255));
+	textRender->draw(room.text, 50.0f, 500.0f, glm::vec2(1, 1), glm::vec3(248.0f / 255, 222.0f / 255, 126.0f / 255));
 	for (int i = 0; i < room.numActiveOptions(&resources); i++)
 	{
 		//std::cout << "iteration " << i << std::endl;
-		textRender->draw(room.getOption(i), 50.0f, 400.0f - 100.f * i, glm::vec2(1, 1), glm::vec3(250.0f / 255, 192.0f / 255, 137.0f / 255));
+		textRender->draw(room.getOption(i), 50.0f, 400.0f - 100.f * i, glm::vec2(1, 1), glm::vec3(248.0f / 255, 222.0f / 255, 126.0f / 255));
 	}
 
 	// bg color
-	glClearColor(174.0f / 255, 136.0f / 255, 184.0f / 255, 1.0f);
+	glClearColor(135.0f / 255, 206.0f / 255, 235.0f / 255, 1.0f);
 	
 
 	GL_ERRORS(); //PARANOIA: print errors just in case we did something wrong.
